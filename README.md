@@ -1,1 +1,9 @@
 # conference-room
+
+## Env
+```.env
+DATABASE_NAME=
+DATABASE_USERNAME=
+DATABASE_PASSWORD=
+DATABASE_HOST_NAME=localhost
+```

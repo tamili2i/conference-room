@@ -1,0 +1,42 @@
+org: tamili2i
+app: conference-rrom
+service: conference-room-booking
+#disabledDeprecations: CODE_1
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, "dev"}
+  region: us-west-2
+
+functions:
+  get-all-rooms:
+    handler: src/conference-room.getAllRooms
+    timeout: 29
+    events:
+      - httpApi:
+          method: GET
+          path: /rooms
+  
+  create-rooms:
+    handler: src/conference-room.createRoom
+    timeout: 29
+    events:
+      - httpApi:
+          method: POST
+          path: /rooms
+
+  rooms-by-floor:
+    handler: src/conference-room.getRoomsByFloor
+    timeout: 29
+    events:
+      - httpApi:
+          method: GET
+          path: /rooms/floor/{floor}
+
+plugins:
+  - serverless-offline
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!venv/**'
