@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 //const logger = require('../config/logger');
 const sequelize = require('../config/sequelize');
+const RoomBooking = require("./room-booking");
 
 const Room = sequelize.define('rooms', {
   room_id: {
@@ -51,14 +52,20 @@ const Room = sequelize.define('rooms', {
   timestamps: false
 });
 
+Room.hasMany(RoomBooking, {
+  foreignKey: "room_id"
+});
+
+RoomBooking.belongsTo(Room)
+
 try {
   Room.sync({ alter: false }).then(() => {
-    console.log('User table created/updated successfully!');
+    console.log('Room table created/updated successfully!');
   }).catch((error) => {
-    console.error('Unable to create/update user table : ', error);
+    console.error('Unable to create/update room table : ', error);
   });
 } catch (error) {
-  console.error('Unable to create/update user table: ', error);
+  console.error('Unable to create/update room table: ', error);
 }
 
 module.exports = Room;
